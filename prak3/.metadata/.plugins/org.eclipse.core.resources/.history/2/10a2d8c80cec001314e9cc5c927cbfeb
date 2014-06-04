@@ -1,0 +1,50 @@
+package mis.examples.doodle;
+
+import java.util.ArrayList;
+
+import org.springframework.http.ResponseEntity;
+
+import mis.examples.doodle.model.Initiator;
+import mis.examples.doodle.model.Option;
+import mis.examples.doodle.model.Poll;
+import android.util.Log;
+
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+
+public class CreatePollRequest extends SpringAndroidSpiceRequest<CreatePollResponse> {
+	
+	public CreatePollRequest() {
+		super(CreatePollResponse.class);	
+	}
+
+	@Override
+	public CreatePollResponse loadDataFromNetwork() throws Exception {
+		Log.d( "request", "sending post request" );
+		
+		
+		
+		Poll p = new Poll();
+		p.setDescription("My description");
+		p.setTitle("My Title");
+		
+		Initiator i = new Initiator();
+		i.setName("Joel!");
+		i.seteMailAddress("battleforums@gmail.com");
+		p.setInitiator(i);
+		
+		p.setLocation("Aachen, Germany");
+		
+		ArrayList<Option> options = new ArrayList<Option>();
+		options.add(new Option("Yes"));
+		options.add(new Option("Nope"));
+		p.setOptions(options);
+		
+		//return getRestTemplate().postForObject( MainActivity.APIUrl + "polls/", p, CreatePollResponse.class );
+		String response = getRestTemplate().postForObject( MainActivity.APIUrl + "polls", p, String.class);
+		System.out.println("-------------RESPONSE!----------");
+		System.out.println(response);
+		System.out.println("--------------------------------");
+		return null;
+	}
+
+}

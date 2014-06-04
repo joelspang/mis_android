@@ -1,0 +1,13 @@
+package mis.examples.doodle;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+@Root(strict = false)
+public class CreatePollResponse extends ResponseEntity<String> {
+
+	public CreatePollResponse(HttpStatus statusCode) {
+		super(statusCode);
+	}
+
+}

@@ -1,0 +1,20 @@
+package mis.examples.doodle;
+
+import mis.examples.doodle.model.PollInfo;
+
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+
+public class PollInfoRequest extends SpringAndroidSpiceRequest<PollInfo> {
+
+	public PollInfoRequest() {
+		super(PollInfo.class);
+		
+	}
+
+	@Override
+	public PollInfo loadDataFromNetwork() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

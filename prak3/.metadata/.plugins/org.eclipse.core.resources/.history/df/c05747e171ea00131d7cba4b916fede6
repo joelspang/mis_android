@@ -1,0 +1,7 @@
+package mis.examples.doodle.model;
+
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+
+public class PollInfoRequest extends SpringAndroidSpiceRequest<PollInfo> {
+
+}

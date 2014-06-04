@@ -1,0 +1,16 @@
+package mis.examples.doodle.model;
+
+import org.simpleframework.xml.Element;
+
+public class Initiator {
+	
+	@Element(required=false)
+	protected Integer userId;
+
+	@Element
+	protected String name;
+	
+	@Element(required=false)
+	protected String eMailAddress;
+	
+}

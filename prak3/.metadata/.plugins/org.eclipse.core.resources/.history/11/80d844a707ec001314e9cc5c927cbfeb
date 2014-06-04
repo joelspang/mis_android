@@ -1,0 +1,9 @@
+package mis.examples.doodle.model;
+
+import org.simpleframework.xml.Element;
+
+public class Option {
+	
+	@Element
+	protected String option;
+}

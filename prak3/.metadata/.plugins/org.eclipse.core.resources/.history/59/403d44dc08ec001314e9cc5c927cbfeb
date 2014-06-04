@@ -1,0 +1,35 @@
+package mis.examples.doodle;
+
+import mis.examples.doodle.model.Initiator;
+import mis.examples.doodle.model.Poll;
+import android.util.Log;
+
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+
+public class CreatePollRequest extends SpringAndroidSpiceRequest<Poll> {
+
+	private String token;
+	
+	public CreatePollRequest(String token) {
+		super(Poll.class);	
+	}
+
+	@Override
+	public Poll loadDataFromNetwork() throws Exception {
+		Log.d( "request", "sending post request" );		
+		
+		Poll p = new Poll();
+		p.setDescription("My description");
+		p.setTitle("My Title");
+		
+		Initiator i = new Initiator();
+		i.setName("Joel!");
+		i.seteMailAddress("coolmission@gmail.com");
+		p.setInitiator(i);
+		
+		return getRestTemplate().postForEntity( MainActivity.APIUrl + "polls/", Poll.class );
+		
+       // return getRestTemplate().getForObject( MainActivity.APIUrl + "polls/", Poll.class );
+	}
+
+}

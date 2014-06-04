@@ -1,0 +1,62 @@
+package mis.examples.doodle;
+
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.XmlSpringAndroidSpiceService;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Window;
+import android.widget.TextView;
+
+public class EnterOptionsActivity extends Activity {
+	
+	SpiceManager spiceManager = new SpiceManager(XmlSpringAndroidSpiceService.class);
+	
+	private String input_title = "";
+	
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	    requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+	    setContentView(R.layout.enteroptions);
+	    
+	    // Fetch extra information
+		this.input_title = (String) getIntent().getSerializableExtra("input_title");
+		System.out.println("SelectTimeActivity: " + this.input_title);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		spiceManager.start(this);
+	}
+
+	@Override
+	protected void onStop() {
+		spiceManager.shouldStop();
+		super.onStop();
+	}
+	
+	@Override
+	public void onBackPressed() {
+	    // Jump back to the "New Poll"-activity
+		Intent i = new Intent(getApplicationContext(), EnterOptionsActivity.class);
+		
+		/* Pass the loaded news items to the main activity */
+		TextView txtTitle = (TextView) findViewById(R.id.txtNpTitle);
+		TextView txtLocation = (TextView) findViewById(R.id.txtNpLocation);
+		TextView txtDescription = (TextView) findViewById(R.id.txtNpDescription);
+		TextView txtName = (TextView) findViewById(R.id.txtNpName);
+		TextView txtEmail = (TextView) findViewById(R.id.txtNpEmail);
+
+		i.putExtra("input_title", txtTitle.getText().toString());	
+		i.putExtra("input_location", txtLocation.getText().toString());	
+		i.putExtra("input_description", txtDescription.getText().toString());		
+		i.putExtra("input_name", txtName.getText().toString());		
+		i.putExtra("input_email", txtEmail.getText().toString());
+		
+		startActivity(i);
+		finish();
+	}
+	
+}

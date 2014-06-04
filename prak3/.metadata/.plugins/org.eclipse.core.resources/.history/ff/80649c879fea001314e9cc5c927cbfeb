@@ -1,0 +1,29 @@
+package mis.examples.doodle;
+
+import mis.examples.doodle.model.PollInfo;
+import android.util.Log;
+
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+
+public class PollInfoRequest extends SpringAndroidSpiceRequest<Object> {
+
+	private String token;
+	
+	public PollInfoRequest(String token) {
+		super(PollInfo.class);
+		System.out.println("Initialized new PollInfo request");
+		this.token = token;		
+	}
+
+	@Override
+	public PollInfo loadDataFromNetwork() throws Exception {
+		Log.d( "request", "loading from network" );
+		System.out.println("loading from network");
+		
+		String url = "http://doodle-test.com/api1WithoutAccessControl/polls/bspsi4b7pzrcrvwb";
+		return getRestTemplate().getForObject(url, PollInfo.class);
+		
+        //return getRestTemplate().getForObject( MainActivity.APIUrl + "/polls/" + this.token, PollInfo.class );
+	}
+
+}
