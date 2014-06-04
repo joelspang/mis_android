@@ -1,5 +1,7 @@
 package mis.examples.doodle;
 
+import java.util.ArrayList;
+
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.XmlSpringAndroidSpiceService;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -8,17 +10,24 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import mis.examples.doodle.model.Poll;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.DataSetObserver;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
 	public final static	String APIUrl 	 = "http://doodle-test.com/api1WithoutAccessControl/";
-	public final 		String testToken = "bspsi4b7pzrcrvwb";
-	
+
+    private ArrayList<Poll> polls = new ArrayList<Poll>();	
 	private SpiceManager spiceManager = new SpiceManager(XmlSpringAndroidSpiceService.class);
 	
 	@Override
@@ -28,6 +37,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
 
         initUIComponents();
+        
+        Poll newPoll = (Poll) getIntent().getSerializableExtra("newpoll");
+        if (newPoll != null) {
+        	polls.add(newPoll);        	
+        }       
     }
 
 	private void initUIComponents() {
@@ -43,29 +57,32 @@ public class MainActivity extends Activity {
 				finish();
 			}
 		});
-	}
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
-		spiceManager.start(this);
-	}
+        
+        ListView lstPolls = (ListView) findViewById(R.id.lstPolls);
+        PollListAdapter adapter = new PollListAdapter(this, polls);
+        lstPolls.setAdapter(adapter); 
+        lstPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-	@Override
-	protected void onStop() {
-		spiceManager.shouldStop();
-		super.onStop();
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {	
+				Poll poll = polls.get(pos);
+		        String url = "http://www.doodle-test.com/" + poll.getId();
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		
+        });
 	}
 	
-	private void fetchPollInfo(String token) {
+	private void fetchPollInfo(String pollId) {
         MainActivity.this.setProgressBarIndeterminateVisibility(true);
         
-        PollRequest request = new PollRequest(token);
-        spiceManager.execute(request, new ListFollowersRequestListener());
-        System.out.println("Added new request " + request);
+        PollRequest request = new PollRequest(pollId);
+        spiceManager.execute(request, new PollRequestListener());
 	}
 	
-	private class ListFollowersRequestListener implements RequestListener<Poll> {
+	private class PollRequestListener implements RequestListener<Poll> {
 	    @Override
 	    public void onRequestFailure(SpiceException e) {
 	        Toast.makeText(MainActivity.this,
@@ -84,5 +101,18 @@ public class MainActivity extends Activity {
 	        MainActivity.this.setProgressBarIndeterminateVisibility(false);
 	    }	
 	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		spiceManager.start(this);
+	}
+
+	@Override
+	protected void onStop() {
+		spiceManager.shouldStop();
+		super.onStop();
+	}
+	
 	
 }

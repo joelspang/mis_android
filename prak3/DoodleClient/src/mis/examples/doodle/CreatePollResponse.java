@@ -2,23 +2,15 @@ package mis.examples.doodle;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Root(strict = false)
-public class CreatePollResponse extends ResponseEntity<String> {
+public class CreatePollResponse {
 
-	@Element
+	@Element(required = false)
 	protected String id;
 	
-	@Element
+	@Element(required = false)
 	protected String key;
-		
-	
-	public CreatePollResponse(HttpStatus statusCode) {
-		super(statusCode);
-	}
-
 	
 	public String getId() {
 		return id;

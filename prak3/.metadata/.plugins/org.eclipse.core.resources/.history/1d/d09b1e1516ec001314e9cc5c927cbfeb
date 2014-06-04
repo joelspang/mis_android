@@ -1,0 +1,38 @@
+package mis.examples.doodle.model;
+
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Namespace;
+import org.simpleframework.xml.Root;
+
+@Namespace(reference = "http://doodle.com/xsd1")
+@Root(strict = false)
+public class Participant {
+	@Element
+	protected Integer id;
+
+	@Element
+	protected String name;
+	
+	@Element(required=false)
+	protected String userId;
+	
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+}

@@ -1,5 +1,10 @@
 package mis.examples.doodle;
 
+import java.util.ArrayList;
+
+import mis.examples.doodle.model.Initiator;
+import mis.examples.doodle.model.Poll;
+
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.XmlSpringAndroidSpiceService;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -11,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EnterOptionsActivity extends Activity {
@@ -83,31 +89,56 @@ public class EnterOptionsActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// Send a POST request to the server to save the newly created poll
-				/* Start a new POST request */
-				CreatePollRequest request = new CreatePollRequest();
+				
+				/* Prepare the poll */
+				Poll poll = new Poll();
+				poll.setDescription(EnterOptionsActivity.this.input_description);
+				poll.setTitle(EnterOptionsActivity.this.input_title);
+				
+				Initiator i = new Initiator();
+				i.setName(EnterOptionsActivity.this.input_name);
+				i.seteMailAddress(EnterOptionsActivity.this.input_email);
+				poll.setInitiator(i);
+								
+				ArrayList<String> o = new ArrayList<String>();
+				TextView choices = (TextView) findViewById(R.id.txtChoices);
+				String txt = choices.getText().toString();
+				for (String s : txt.split("\n")) {
+					o.add(s);
+				}
+				poll.setOptions(o);
+				
+				/* Start a new POST request */				
+				CreatePollRequest request = new CreatePollRequest(poll);				
 		        spiceManager.execute(request, new CreatePollListener());
-		        System.out.println("Added new request " + request);
 			}
 		});
 	}
 	
-	private class CreatePollListener implements RequestListener<CreatePollResponse> {
+	private class CreatePollListener implements RequestListener<Poll> {
 	    @Override
 	    public void onRequestFailure(SpiceException e) {
 	        Toast.makeText(EnterOptionsActivity.this,
 	            "Error during request: " + e.getLocalizedMessage(), Toast.LENGTH_LONG)
 	            .show();
 	        EnterOptionsActivity.this.setProgressBarIndeterminateVisibility(false);
-	        System.out.println("Failure!");
 	    }
 	
 	    @Override
-	    public void onRequestSuccess(CreatePollResponse response) {
-	        if (response == null) {
+	    public void onRequestSuccess(Poll responsePoll) {
+	        if (responsePoll == null) {
 	            return;
-	        }	        
+	        }
 	        
 	        EnterOptionsActivity.this.setProgressBarIndeterminateVisibility(false);
+	        
+	        // Add the new poll to the main activity's list
+			Intent i = new Intent(getApplicationContext(), MainActivity.class);
+
+			i.putExtra("newpoll", responsePoll);
+			
+			startActivity(i);
+			finish();	        
 	    }	
 	}
 	

@@ -1,0 +1,54 @@
+package mis.examples.doodle;
+
+import java.util.ArrayList;
+
+import mis.examples.doodle.model.Poll;
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+public class PollListAdapter extends BaseAdapter {
+
+	private ArrayList<Poll> items;
+	private LayoutInflater inflater;
+	
+	public PollListAdapter(Activity activity, ArrayList<Poll> items) {
+		this.items = items;
+		this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+	
+	@Override
+	public int getCount() {
+		return items.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return items.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(int position, View vi, ViewGroup parent) {
+        if (vi == null) {
+        	vi = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+        }
+        
+        Poll currentPoll = items.get(position);
+ 
+        TextView text = (TextView) vi.findViewById(android.R.id.text1);
+        text.setText(currentPoll.getTitle());
+                
+        return vi;
+    }
+
+}

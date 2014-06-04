@@ -1,8 +1,19 @@
 package mis.examples.doodle.model;
 
-import org.simpleframework.xml.Element;
+import java.io.Serializable;
 
-public class Initiator {
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Order;
+import org.simpleframework.xml.Root;
+
+
+@Root(strict = false)
+@Order(elements = {
+	"name", "userId", "eMailAddress"
+})
+public class Initiator implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Element(required=false)
 	protected Integer userId;

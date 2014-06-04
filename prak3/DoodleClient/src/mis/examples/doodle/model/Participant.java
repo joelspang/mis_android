@@ -1,10 +1,13 @@
 package mis.examples.doodle.model;
 
+import java.io.Serializable;
+
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.Root;
 
 @Root(strict = false)
-public class Participant {
+public class Participant implements Serializable {
 	@Element
 	protected Integer id;
 

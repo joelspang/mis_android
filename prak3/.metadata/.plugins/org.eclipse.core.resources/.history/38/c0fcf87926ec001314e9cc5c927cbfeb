@@ -1,0 +1,13 @@
+package mis.examples.doodle.model;
+
+import java.util.ArrayList;
+
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
+@Root(strict = false)
+public class Options {
+	
+	@ElementList(name = "option", inline = true)
+	protected ArrayList<String> option = new ArrayList<String>();
+}

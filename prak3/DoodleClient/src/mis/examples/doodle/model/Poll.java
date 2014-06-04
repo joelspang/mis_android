@@ -1,28 +1,27 @@
 package mis.examples.doodle.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Namespace;
+import org.simpleframework.xml.Order;
 import org.simpleframework.xml.Root;
 
+@Namespace(reference = "http://doodle.com/xsd1")
 @Root(strict = false)
-public class Poll {
-	
-	@Element
-	protected String title;
+@Order(elements = {
+	"type", "levels", "state", "language", "title", "description", "initiator",
+	"options", "participants"
+})
+public class Poll implements Serializable {
 
-    @Element
-    protected String description;
-    
-    @Element
-    protected String location;
-    
-    @ElementList(name = "participants", inline = false, required = false)
-    private List< Participant > participants;	
-    
-    @Element
-    protected Initiator initiator;
+	private static final long serialVersionUID = 1L;
+
+	@Element
+	protected String type = "TEXT";
     
     @Element
     protected int levels = 2;
@@ -32,9 +31,25 @@ public class Poll {
     
     @Element
     protected String language = "en";
+	
+	@Element
+	protected String title;
 
-    @ElementList(name = "options", inline = false)
-    protected List< Option > options;
+    @Element
+    protected String description;
+    
+    @Element
+    protected Initiator initiator;
+
+	@ElementList(name = "options", inline = false, entry = "option")
+	protected ArrayList<String> options = new ArrayList<String>();
+    
+    @ElementList(name = "participants", inline = false, required = false)
+    private List< Participant > participants;
+    
+    // Extra fields
+    protected String id;
+    protected String doodleKey;
     
     
 	public String getTitle() {
@@ -54,12 +69,6 @@ public class Poll {
 	}
 	public void setParticipants(List<Participant> participants) {
 		this.participants = participants;
-	}
-	public String getLocation() {
-		return location;
-	}
-	public void setLocation(String location) {
-		this.location = location;
 	}
 	public Initiator getInitiator() {
 		return initiator;
@@ -85,11 +94,30 @@ public class Poll {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	public List<Option> getOptions() {
+	public ArrayList<String> getOptions() {
 		return options;
 	}
-	public void setOptions(List<Option> options) {
+	public void setOptions(ArrayList<String> options) {
 		this.options = options;
-	}		
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getDoodleKey() {
+		return doodleKey;
+	}
+	public void setDoodleKey(String doodleKey) {
+		this.doodleKey = doodleKey;
+	}
+	
 	
 }

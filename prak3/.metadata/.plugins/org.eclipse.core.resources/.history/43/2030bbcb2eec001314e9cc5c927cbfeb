@@ -1,0 +1,79 @@
+package mis.examples.doodle;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import mis.examples.doodle.model.Initiator;
+import mis.examples.doodle.model.Poll;
+import android.util.Log;
+
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+
+public class CreatePollRequest extends SpringAndroidSpiceRequest<String> {
+	
+	public CreatePollRequest() {
+		super(String.class);	
+	}
+
+	@Override
+	public String loadDataFromNetwork() throws Exception {
+		Log.d( "request", "sending post request" );
+		
+		Poll p = new Poll();
+		p.setDescription("My description");
+		p.setTitle("My Title");
+		
+		Initiator i = new Initiator();
+		i.setName("Test Name");
+		i.seteMailAddress("no@nope.com");
+		p.setInitiator(i);
+						
+		ArrayList<String> o = new ArrayList<String>();
+		o.add("Yes");
+		o.add("Nope");
+		p.setOptions(o);
+		
+		try {
+			//CreatePollResponse res = getRestTemplate().postForObject( MainActivity.APIUrl + "polls", p, CreatePollResponse.class );
+			RestTemplate t = getRestTemplate();
+			
+			// web services support xml responses
+	        SimpleXmlHttpMessageConverter simpleXmlHttpMessageConverter = new SimpleXmlHttpMessageConverter();
+	        FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+	        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
+	        final List<HttpMessageConverter<?>> listHttpMessageConverters = t.getMessageConverters();
+
+	        listHttpMessageConverters.add(simpleXmlHttpMessageConverter);
+	        listHttpMessageConverters.add(formHttpMessageConverter);
+	        listHttpMessageConverters.add(stringHttpMessageConverter);
+	        t.setMessageConverters(listHttpMessageConverters);
+			
+			
+			byte[] entity = t.postForObject("http://example.com", p, String.class);
+			//String r = template.postForObject( "http://sanctuary.myds.me:666/explorer/", p, String.class );
+			
+			try {
+				System.out.println(entity);
+			} catch (Exception e) {
+				System.out.println(e);
+			}			
+			
+			return entity;
+		} catch (HttpStatusCodeException e) {
+			System.out.println("ERRROR: " + e);
+			System.out.println(e.getStatusText());
+		}
+		
+		return null;
+	}
+
+}

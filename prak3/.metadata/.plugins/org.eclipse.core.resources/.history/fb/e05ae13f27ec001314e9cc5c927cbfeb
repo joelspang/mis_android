@@ -1,0 +1,19 @@
+package mis.examples.doodle.model;
+
+import java.util.ArrayList;
+
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
+@Root(strict = false)
+public class Options {
+	
+
+	public ArrayList<String> getOption() {
+		return option;
+	}
+
+	public void setOption(ArrayList<String> option) {
+		this.option = option;
+	}
+}
