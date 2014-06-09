@@ -17,7 +17,6 @@
 <fullyQualifiedTypeName name="com.octo.android.robospice.SpringAndroidSpiceService"/>
 <fullyQualifiedTypeName name="com.octo.android.robospice.persistence.CacheManager"/>
 <fullyQualifiedTypeName name="android.app.Application"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"/>
 <fullyQualifiedTypeName name="org.springframework.web.client.RestTemplate"/>
@@ -26,4 +25,24 @@
 <fullyQualifiedTypeName name="org.springframework.http.converter.StringHttpMessageConverter"/>
 <fullyQualifiedTypeName name="org.springframework.http.converter.HttpMessageConverter"/>
 <fullyQualifiedTypeName name="mis.examples.doodle.model.PollInfo"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.PollDataHelper"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.model.Poll"/>
+<fullyQualifiedTypeName name="android.content.SharedPreferences"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="android.provider.BaseColumns"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.PollDataHelper.PollEntry"/>
+<fullyQualifiedTypeName name="android.database.sqlite.SQLiteOpenHelper"/>
+<fullyQualifiedTypeName name="android.database.sqlite.SQLiteDatabase"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.activities.MainActivity"/>
+<fullyQualifiedTypeName name="android.app.Activity"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.content.ContentValues"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.database.PollEntryContract"/>
+<fullyQualifiedTypeName name="android.database.Cursor"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.database.PollEntryContract.PollEntry"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.database.DoodleDBHelper"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.database.PollDataHelper"/>
+<fullyQualifiedTypeName name="mis.examples.doodle.activities.EnterOptionsActivity"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,18 @@
+package mis.examples.doodle;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
+import mis.examples.doodle.model.Poll;
+
+public class PollDataHelper {
+		
+		
+	public static void addPoll(Poll poll) {
+		
+	}
+	
+	
+}

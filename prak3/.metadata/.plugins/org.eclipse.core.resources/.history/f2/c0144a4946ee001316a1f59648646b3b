@@ -1,0 +1,13 @@
+package mis.examples.doodle.database;
+
+import mis.examples.doodle.model.Poll;
+
+public class PollDataHelper {
+		
+		
+	public static void addPoll(Poll poll) {
+		
+	}
+	
+	
+}

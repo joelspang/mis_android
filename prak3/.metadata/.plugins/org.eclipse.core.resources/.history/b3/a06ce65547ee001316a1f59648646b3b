@@ -1,0 +1,42 @@
+package mis.examples.doodle.database;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import mis.examples.doodle.database.PollEntryContract.PollEntry;
+import mis.examples.doodle.model.Poll;
+
+public class PollDataHelper {
+		
+	Context context;
+	
+	public PollDataHelper(Context context) {
+		this.context = context;
+	}
+		
+	public boolean addPoll(Poll poll) {
+		DoodleDBHelper dbHelper = new DoodleDBHelper(context);
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(PollEntry.COLUMN_NAME_ID, poll.getId());
+		values.put(PollEntry.COLUMN_NAME_TITLE, poll.getTitle());
+		values.put(PollEntry.COLUMN_NAME_DESCRIPTION, poll.getDescription());
+		values.put(PollEntry.COLUMN_NAME_DOODLEKEY, poll.getDoodleKey());
+		
+		try {
+			long newRowId = db.insert( PollEntry.TABLE_NAME, null, values );		
+			return (newRowId > 0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean readPolls() {
+		DoodleDBHelper dbHelper = new DoodleDBHelper(context);
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+	}
+	
+}

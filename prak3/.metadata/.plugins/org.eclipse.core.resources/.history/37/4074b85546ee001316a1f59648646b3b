@@ -1,0 +1,21 @@
+package mis.examples.doodle.database;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import mis.examples.doodle.model.Poll;
+
+public class PollDataHelper {
+		
+	Context context;
+	
+	public PollDataHelper(Context context) {
+		this.context = context;
+	}
+		
+	public void addPoll(Poll poll) {
+		DoodleDBHelper dbHelper = new DoodleDBHelper(context);
+		SQLiteDatabase db = DoodleDBHelper.
+	}
+	
+	
+}

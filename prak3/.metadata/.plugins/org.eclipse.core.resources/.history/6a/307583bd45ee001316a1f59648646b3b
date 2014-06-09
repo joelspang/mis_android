@@ -1,0 +1,5 @@
+package mis.examples.doodle.database;
+
+public class PollEntryContract {
+
+}
