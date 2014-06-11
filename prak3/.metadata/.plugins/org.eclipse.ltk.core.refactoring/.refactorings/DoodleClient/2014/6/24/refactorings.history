@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;imageButton1&apos; in &apos;mis.examples.doodle.R.id&apos; to &apos;btnDelete&apos;&#x0D;&#x0A;- Original project: &apos;DoodleClient&apos;&#x0D;&#x0A;- Original element: &apos;mis.examples.doodle.R.id.imageButton1&apos;&#x0D;&#x0A;- Renamed element: &apos;mis.examples.doodle.R.id.btnDelete&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="true" description="Rename field &apos;imageButton1&apos;" flags="589830" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/gen&lt;mis.examples.doodle{R.java[R[id^imageButton1" name="btnDelete" references="true" setter="false" stamp="1402485922264" textual="false" version="1.0"/>
+</session>

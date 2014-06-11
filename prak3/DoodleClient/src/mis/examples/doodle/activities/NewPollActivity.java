@@ -1,8 +1,6 @@
 package mis.examples.doodle.activities;
 
 import mis.examples.doodle.R;
-import mis.examples.doodle.R.id;
-import mis.examples.doodle.R.layout;
 
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.XmlSpringAndroidSpiceService;

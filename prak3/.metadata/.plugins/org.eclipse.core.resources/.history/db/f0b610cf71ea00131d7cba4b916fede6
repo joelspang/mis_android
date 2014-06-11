@@ -1,5 +1,0 @@
-package mis.examples.doodle.model;
-
-public class PollInfoRequest extends Spring {
-
-}

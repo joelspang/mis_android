@@ -3,8 +3,6 @@ package mis.examples.doodle.activities;
 import java.util.ArrayList;
 
 import mis.examples.doodle.R;
-import mis.examples.doodle.R.id;
-import mis.examples.doodle.R.layout;
 import mis.examples.doodle.database.PollDataHelper;
 import mis.examples.doodle.model.Initiator;
 import mis.examples.doodle.model.Poll;

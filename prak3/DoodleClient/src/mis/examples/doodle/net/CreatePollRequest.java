@@ -1,6 +1,5 @@
 package mis.examples.doodle.net;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpHeaders;
@@ -10,11 +9,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import mis.examples.doodle.activities.MainActivity;
-import mis.examples.doodle.model.Initiator;
 import mis.examples.doodle.model.Poll;
 import android.util.Log;
 

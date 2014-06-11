@@ -120,4 +120,22 @@ public class Poll implements Serializable {
 	}
 	
 	
+	// Aux. functions
+	public void showInfo() {
+		String s = "Title: " + getTitle() + "\n\n";
+		s += "Description: " + getDescription() + "\n";
+		
+		Initiator i = getInitiator();
+		s += "Created by: " + i.getName();
+		if (i.geteMailAddress() != "") {
+			s += " (" + i.geteMailAddress() + ")";
+		}
+		s += "\n";
+	
+		s += "Poll ID: " + getId() + "\n\n";
+		s += "Number of participants:" + getParticipants().size();
+		
+		System.out.println(s);
+	}
+	
 }

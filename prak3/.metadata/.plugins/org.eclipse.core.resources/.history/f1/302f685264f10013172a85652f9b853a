@@ -1,0 +1,5 @@
+package mis.examples.doodle.net;
+
+public class DeletePollRequest {
+
+}

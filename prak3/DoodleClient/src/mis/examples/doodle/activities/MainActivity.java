@@ -9,23 +9,17 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import mis.examples.doodle.PollListAdapter;
 import mis.examples.doodle.R;
-import mis.examples.doodle.R.id;
-import mis.examples.doodle.R.layout;
 import mis.examples.doodle.database.PollDataHelper;
 import mis.examples.doodle.model.Poll;
 import mis.examples.doodle.net.PollRequest;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,7 +28,7 @@ public class MainActivity extends Activity {
 	public final static	String APIUrl 	 = "http://doodle-test.com/api1WithoutAccessControl/";
 
     private ArrayList<Poll> polls;	
-	private SpiceManager spiceManager = new SpiceManager(XmlSpringAndroidSpiceService.class);
+	public SpiceManager spiceManager = new SpiceManager(XmlSpringAndroidSpiceService.class);
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,10 +67,11 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {	
 				Poll poll = polls.get(pos);
-		        String url = "http://www.doodle-test.com/" + poll.getId();
+				/* String url = "http://www.doodle-test.com/" + poll.getId();
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(url));
-				startActivity(i);
+				startActivity(i);*/
+				fetchPollInfo(poll.getId());
 			}
 		
         });
@@ -100,10 +95,12 @@ public class MainActivity extends Activity {
 	    }
 	
 	    @Override
-	    public void onRequestSuccess(Poll info) {
-	        if (info == null) {
+	    public void onRequestSuccess(Poll poll) {
+	        if (poll == null) {
 	            return;
-	        }	        
+	        }	     
+
+	        poll.showInfo();
 	        
 	        MainActivity.this.setProgressBarIndeterminateVisibility(false);
 	    }	

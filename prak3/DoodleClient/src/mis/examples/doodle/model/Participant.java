@@ -3,11 +3,12 @@ package mis.examples.doodle.model;
 import java.io.Serializable;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.Root;
 
 @Root(strict = false)
 public class Participant implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Element
 	protected Integer id;
 
