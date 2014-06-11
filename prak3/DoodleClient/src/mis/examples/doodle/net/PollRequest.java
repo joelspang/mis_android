@@ -8,17 +8,19 @@ import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceReques
 
 public class PollRequest extends SpringAndroidSpiceRequest<Poll> {
 
-	private String token;
-	
-	public PollRequest(String token) {
-		super(Poll.class);
-		this.token = token;		
-	}
+    private String pollId;
 
-	@Override
-	public Poll loadDataFromNetwork() throws Exception {
-		Log.d( "request", "loading from network" );		
-        return getRestTemplate().getForObject( MainActivity.APIUrl + "polls/" + this.token, Poll.class );
-	}
+    public PollRequest(String pollId) {
+	super(Poll.class);
+	this.pollId = pollId;
+    }
+
+    @Override
+    public Poll loadDataFromNetwork() throws Exception {
+	Log.d("request", "loading from network");
+
+	return getRestTemplate().getForObject(
+		MainActivity.APIUrl + "polls/" + this.pollId, Poll.class);
+    }
 
 }

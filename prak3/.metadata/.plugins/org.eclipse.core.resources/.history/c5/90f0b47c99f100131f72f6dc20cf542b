@@ -1,0 +1,12 @@
+package mis.examples.doodle.activities;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class PollInfoActivity extends Activity {
+    
+    public void onCreate(Bundle savedInstanceState) {
+    
+    }
+
+}

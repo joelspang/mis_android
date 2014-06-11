@@ -27,6 +27,7 @@
         
         <activity android:name=".activities.NewPollActivity"></activity>
         <activity android:name=".activities.EnterOptionsActivity"></activity>
+        <activity android:name=".activities.PollInfoActivity"></activity>
     </application>
 
 </manifest>

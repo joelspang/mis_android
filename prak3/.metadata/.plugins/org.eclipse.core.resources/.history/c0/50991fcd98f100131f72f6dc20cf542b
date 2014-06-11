@@ -1,0 +1,155 @@
+package mis.examples.doodle.activities;
+
+import java.util.ArrayList;
+
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.XmlSpringAndroidSpiceService;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
+
+import mis.examples.doodle.PollListAdapter;
+import mis.examples.doodle.R;
+import mis.examples.doodle.database.PollDataHelper;
+import mis.examples.doodle.model.Poll;
+import mis.examples.doodle.net.DeletePollRequest;
+import mis.examples.doodle.net.PollRequest;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+	
+	public final static	String APIUrl 	 = "http://doodle-test.com/api1WithoutAccessControl/";
+
+    private ArrayList<Poll> polls;	
+	public SpiceManager spiceManager = new SpiceManager(XmlSpringAndroidSpiceService.class);
+	
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		spiceManager.start(this);
+	}
+
+	
+	@Override
+	protected void onStop() {
+		spiceManager.shouldStop();
+		super.onStop();
+	}
+	
+	
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        setContentView(R.layout.main);
+
+        // Load existing polls from DB and initialize UI components
+        loadExistingPolls();
+        initUIComponents();
+    }
+	
+
+	private void loadExistingPolls() {
+		PollDataHelper helper = new PollDataHelper(this);
+		polls = helper.readPolls();		
+	}
+	
+
+	private void initUIComponents() {
+		// Add listeners for buttons
+		Button btnFetch = (Button) findViewById(R.id.btnNewpoll);
+				
+		btnFetch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// Create a new poll
+				startActivity(new Intent(getApplicationContext(), NewPollActivity.class));
+				finish();
+			}
+		});
+        
+        ListView lstPolls = (ListView) findViewById(R.id.lstPolls);
+        PollListAdapter adapter = new PollListAdapter(this, polls);
+        lstPolls.setAdapter(adapter); 
+        lstPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {	
+				Poll poll = polls.get(pos);
+				fetchPollInfo(poll.getId());
+			}
+		
+        });
+	}
+	
+	
+	private void fetchPollInfo(String pollId) {
+        MainActivity.this.setProgressBarIndeterminateVisibility(true);
+        
+        PollRequest request = new PollRequest(pollId);
+        spiceManager.execute(request, new PollRequestListener());
+	}
+	
+	
+	public void deletePoll(Poll poll) {
+		// Delete poll
+		DeletePollRequest request = new DeletePollRequest(poll);
+		spiceManager.execute(request, new RequestListener<Poll>() {
+
+			@Override
+			public void onRequestFailure(SpiceException e) {
+				Toast.makeText(MainActivity.this, "Could not delete delete poll! Error: " + e.getMessage(), Toast.LENGTH_LONG).show();		
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onRequestSuccess(Poll poll) {
+				// Delete the record
+				PollDataHelper helper = new PollDataHelper(MainActivity.this);
+				
+				if (helper.deletePoll(poll)) {
+					Toast.makeText(MainActivity.this, "Successfully deleted poll!", Toast.LENGTH_LONG).show();
+					
+					// Load remaining polls from the database
+					loadExistingPolls();
+					initUIComponents();
+				}
+			}
+		});
+	}
+	
+	
+	
+	
+	
+	private class PollRequestListener implements RequestListener<Poll> {
+	    @Override
+	    public void onRequestFailure(SpiceException e) {
+	        Toast.makeText(MainActivity.this,
+	            "Error during request: " + e.getLocalizedMessage(), Toast.LENGTH_LONG)
+	            .show();
+	        MainActivity.this.setProgressBarIndeterminateVisibility(false);
+	        System.out.println("Failure!");
+	    }
+	
+	    @Override
+	    public void onRequestSuccess(Poll poll) {
+	        if (poll == null) {
+	            return;
+	        }	     
+
+	        poll.showInfo();
+	        
+	        MainActivity.this.setProgressBarIndeterminateVisibility(false);
+	    }	
+	}	
+	
+}

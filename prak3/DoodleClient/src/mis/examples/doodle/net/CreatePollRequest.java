@@ -18,57 +18,59 @@ import android.util.Log;
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
 public class CreatePollRequest extends SpringAndroidSpiceRequest<Poll> {
-	
-	private Poll poll;
-	
-	public CreatePollRequest(Poll poll) {
-		super(Poll.class);	
-		this.poll = poll;
+
+    private Poll poll;
+
+    public CreatePollRequest(Poll poll) {
+	super(Poll.class);
+	this.poll = poll;
+    }
+
+    @Override
+    public Poll loadDataFromNetwork() throws Exception {
+	Log.d("request", "sending post request");
+
+	try {
+	    RestTemplate t = getRestTemplate();
+
+	    // Add some message converters to interpret the response
+	    SimpleXmlHttpMessageConverter simpleXmlHttpMessageConverter = new SimpleXmlHttpMessageConverter();
+	    FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+	    StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
+	    final List<HttpMessageConverter<?>> listHttpMessageConverters = t
+		    .getMessageConverters();
+
+	    listHttpMessageConverters.add(simpleXmlHttpMessageConverter);
+	    listHttpMessageConverters.add(formHttpMessageConverter);
+	    listHttpMessageConverters.add(stringHttpMessageConverter);
+	    t.setMessageConverters(listHttpMessageConverters);
+
+	    ResponseEntity<String> entity = t.postForEntity(MainActivity.APIUrl
+		    + "polls", this.poll, String.class);
+
+	    try {
+		HttpHeaders headers = entity.getHeaders();
+
+		// For newly created polls, we need the following information
+		String pollId = headers.get("Content-Location").get(0);
+		String doodleKey = headers.get("X-DoodleKey").get(0);
+
+		// Update poll information
+		this.poll.setId(pollId);
+		this.poll.setDoodleKey(doodleKey);
+
+	    } catch (Exception e) {
+		System.out.println(e);
+	    }
+
+	    return this.poll;
+
+	} catch (HttpStatusCodeException e) {
+
+	    System.out.println(e.getStatusText());
 	}
 
-	@Override
-	public Poll loadDataFromNetwork() throws Exception {
-		Log.d( "request", "sending post request" );		
-		
-		try {
-			RestTemplate t = getRestTemplate();
-			
-			// Add some message converters to interpret the response
-	        SimpleXmlHttpMessageConverter simpleXmlHttpMessageConverter = new SimpleXmlHttpMessageConverter();
-	        FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
-	        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
-	        final List<HttpMessageConverter<?>> listHttpMessageConverters = t.getMessageConverters();
-
-	        listHttpMessageConverters.add(simpleXmlHttpMessageConverter);
-	        listHttpMessageConverters.add(formHttpMessageConverter);
-	        listHttpMessageConverters.add(stringHttpMessageConverter);
-	        t.setMessageConverters(listHttpMessageConverters);			
-			
-			ResponseEntity<String> entity = t.postForEntity( MainActivity.APIUrl + "polls", this.poll, String.class);
-						
-			try {				
-				HttpHeaders headers = entity.getHeaders();
-				
-				// For newly created polls, we need the following information
-				String pollId = headers.get("Content-Location").get(0);
-				String doodleKey = headers.get("X-DoodleKey").get(0);
-
-				// Update poll information
-				this.poll.setId(pollId);
-				this.poll.setDoodleKey(doodleKey);
-								
-			} catch (Exception e) {
-				System.out.println(e);
-			}			
-			
-			return this.poll;
-			
-		} catch (HttpStatusCodeException e) {
-			
-			System.out.println(e.getStatusText());
-		}
-		
-		return null;
-	}
+	return null;
+    }
 
 }

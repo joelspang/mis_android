@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_row"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+	android:descendantFocusability="blocksDescendants"
+    android:padding="8dp" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:paddingLeft="5dp"
+        android:text="News Item"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:textStyle="normal"
+        android:typeface="sans" />
+
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="21dp"
+        android:adjustViewBounds="false"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@android:drawable/ic_delete" />
+
+</RelativeLayout>
